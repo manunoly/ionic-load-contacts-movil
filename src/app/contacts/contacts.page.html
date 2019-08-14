@@ -1,0 +1,70 @@
+<ion-header>
+  <ion-toolbar>
+    <div>
+      <ion-segment *ngIf="!query" [(ngModel)]="letter">
+        <ion-segment-button value="a">
+          <ion-label>A</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="b">
+          <ion-label>B</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="n">
+          <ion-label>N</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+
+      <ion-searchbar showCancelButton cancelButtonText="Cancel" class="search" debounce="700" [(ngModel)]="query">
+      </ion-searchbar>
+    </div>
+
+    <h5>Filtrando por esta query: {{query}}</h5>
+    <h5>Sino tengo query filtro por letra: {{letter}}</h5>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list padding>
+    <div *ngIf="dataC as dataCD; else loadingT">
+      <ion-item *ngFor="let item of filterContacts(dataCD)">
+        <ion-label>
+          <h3 class="title-page">{{ item.displayName }}</h3>
+          <div *ngIf="item.phoneNumbers && item.phoneNumbers.length > 0">
+            <h3 class="title-page">Phone</h3>
+            <div class="divider"></div>
+            <div *ngFor="let item of item.phoneNumbers">
+              <ion-row>
+                <ion-col text-left>
+                  <p class="card-title">{{ item.value }}</p>
+                </ion-col>
+
+              </ion-row>
+            </div>
+          </div>
+          <br />
+          <div *ngIf="item.emails && item.emails.length > 0">
+            <h3 class="title-page">Email</h3>
+            <div class="divider"></div>
+            <div *ngFor="let item of item.emails">
+              <ion-row>
+                <ion-col text-left>
+                  <p class="card-title">{{ item.value }}</p>
+                </ion-col>
+              </ion-row>
+            </div>
+          </div>
+          <br />
+        </ion-label>
+      </ion-item>
+    </div>
+    <ng-template #loadingT>
+      <div text-center>
+        <ion-spinner></ion-spinner>
+        <h3>
+          Loading ...
+        </h3>
+      </div>
+    </ng-template>
+  </ion-list>
+
+</ion-content>
